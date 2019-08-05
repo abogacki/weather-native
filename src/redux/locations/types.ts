@@ -10,13 +10,13 @@ export type Point = {
 }
 
 export type LocationsState = {
-  byId: { [id: number]: Point }
-  allIds: number[]
+  byId: { [id: string]: Location }
+  allLocationIds: string[]
 }
 
-const CREATE_LOCATION = 'CREATE_LOCATIOn'
-const REMOVE_LOCATION = 'REMOVE_LOCATION'
-const UPDATE_LOCATION = 'UPDATE_LOCATION'
+export const CREATE_LOCATION = 'CREATE_LOCATION'
+export const REMOVE_LOCATION = 'REMOVE_LOCATION'
+export const UPDATE_LOCATION = 'UPDATE_LOCATION'
 
 type CreateLocation = {
   type: typeof CREATE_LOCATION
@@ -28,13 +28,13 @@ type CreateLocation = {
 
 type RemoveLocation = {
   type: typeof REMOVE_LOCATION
-  id: number
+  id: string
 }
 
 type UpdateLocation = {
   type: typeof UPDATE_LOCATION
   payload: {
-    id: number
+    id: string
     name: string
     point: Point
   }

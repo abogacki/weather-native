@@ -8,47 +8,21 @@
  * @format
  */
 
-import React, { Fragment } from 'react'
-import { StyleSheet, View, Platform } from 'react-native'
-import {
-  Button,
-  ThemeProvider,
-  Theme,
-  colors,
-  Header,
-} from 'react-native-elements'
-
-const theme: Theme = {
-  colors: {
-    ...Platform.select({
-      default: colors.platform.android,
-      ios: colors.platform.ios,
-    }),
-  },
-}
+import React from 'react'
+import { Provider } from 'react-redux'
+import { ThemeProvider } from 'react-native-elements'
+import store from './redux/store'
+import Navigation from './Navigation'
+import theme from './Theme'
 
 const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <Header
-        leftComponent={{ icon: 'menu', color: '#fff' }}
-        centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
-        rightComponent={{ icon: 'home', color: '#fff' }}
-      />
-      <View>
-        <View style={styles.sectionContainer}>
-          <Button title="Hey" />
-        </View>
-      </View>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <Navigation />
+      </ThemeProvider>
+    </Provider>
   )
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-})
 
 export default App

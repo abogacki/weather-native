@@ -8,83 +8,47 @@
  * @format
  */
 
-import React, {Fragment} from 'react'; 
+import React, { Fragment } from 'react'
+import { StyleSheet, View, Platform } from 'react-native'
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  View,
-} from 'react-native';
-
-import {Button, ThemeProvider} from 'react-native-elements'
-
-import {
-  Colors,
+  Button,
+  ThemeProvider,
+  Theme,
+  colors,
   Header,
-} from 'react-native/Libraries/NewAppScreen';
-import RaisedButton from './components/RaisedButton';
+} from 'react-native-elements'
 
+const theme: Theme = {
+  colors: {
+    ...Platform.select({
+      default: colors.platform.android,
+      ios: colors.platform.ios,
+    }),
+  },
+}
 
 const App = () => {
   return (
-    <Fragment>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-            <ThemeProvider>
-              <Button title="Hey" />
-            </ThemeProvider>
-            </View>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </Fragment>
-  );
-};
+    <ThemeProvider theme={theme}>
+      <Header
+        leftComponent={{ icon: 'menu', color: '#fff' }}
+        centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
+        rightComponent={{ icon: 'home', color: '#fff' }}
+      />
+      <View>
+        <View style={styles.sectionContainer}>
+          <Button title="Hey" />
+        </View>
+      </View>
+    </ThemeProvider>
+  )
+}
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
+})
 
-export default App;
+export default App

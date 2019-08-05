@@ -3,8 +3,15 @@ import { View } from 'react-native'
 import { AppState } from '../redux/store'
 import { connect } from 'react-redux'
 import { Text } from 'react-native'
+import { NavigationComponent, NavigationNavigator } from 'react-navigation'
+import { Location } from '../redux/locations/types'
+import { ListItem } from 'react-native-elements'
 
-class LocationScreen extends React.Component {
+type NavigationProps = {
+  navigation: NavigationNavigator
+}
+
+class LocationScreen extends React.Component<NavigationProps & Location> {
   public static navigationOptions = {
     title: 'Weather',
   }
@@ -12,14 +19,28 @@ class LocationScreen extends React.Component {
   public render() {
     return (
       <View>
-        <Text>Here goes implementantio</Text>
+        <ListItem title="Location Id" subtitle={this.props.id.toString()} />
+        <ListItem title="Name" subtitle={this.props.name} />
+        <ListItem
+          title="Point"
+          subtitle={`${this.props.point.latitude}, ${
+            this.props.point.longitude
+          }`}
+        />
       </View>
     )
   }
 }
 
-const mapStateToProps = (state: AppState) => ({
-  locations: state.locations.allLocationIds.map(id => state.locations.byId[id]),
-})
+const getLocationById = (state: AppState, id: number | string) => {
+  return state.locations.byId[id]
+}
+
+const mapStateToProps = (state: AppState, ownProps: NavigationProps) => {
+  const id = ownProps.navigation.getParam('id')
+  return {
+    ...getLocationById(state, id),
+  }
+}
 
 export default connect(mapStateToProps)(LocationScreen)

@@ -1,10 +1,12 @@
 import React from 'react'
 import { Header } from 'react-native-elements'
+import { NavigationScreenProps } from 'react-navigation'
 
-type Props = any
+type Props = {
+  navigation: NavigationScreenProps
+}
 
-const AppHeader = (props: Props) => {
-  console.log(props)
+const AppHeader = ({ navigation }: Props) => {
   return (
     <Header
       leftComponent={{ icon: 'menu', color: '#fff' }}

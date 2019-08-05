@@ -15,7 +15,6 @@ type Props = {
 const Dashboard = ({ locations, navigation }: Props) => {
   return (
     <Fragment>
-      <Text>Locations</Text>
       <View>
         {locations.map(location => (
           <ListItem
@@ -26,7 +25,12 @@ const Dashboard = ({ locations, navigation }: Props) => {
             leftIcon={{
               name: 'map',
             }}
-            onPress={() => navigation.navigate('Location')}
+            onPress={() =>
+              navigation.navigate('Location', {
+                id: location.id,
+                name: location.name,
+              })
+            }
           />
         ))}
       </View>

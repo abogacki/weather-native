@@ -2,10 +2,9 @@ import React, { Fragment } from 'react'
 import { View } from 'react-native'
 import { AppState } from '../redux/store'
 import { connect } from 'react-redux'
-import { Text } from 'react-native'
-import { NavigationComponent, NavigationNavigator } from 'react-navigation'
+import { NavigationNavigator } from 'react-navigation'
 import { Location } from '../redux/locations/types'
-import { ListItem } from 'react-native-elements'
+import { ListItem, SearchBar } from 'react-native-elements'
 
 type NavigationProps = {
   navigation: NavigationNavigator

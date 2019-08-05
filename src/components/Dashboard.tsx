@@ -1,11 +1,13 @@
-import React, { Fragment } from 'react'
-import { View } from 'react-native'
+import React, { Fragment, useState } from 'react'
+import {
+  View,
+  NativeSyntheticEvent,
+  TextInputChangeEventData,
+} from 'react-native'
 import { AppState } from '../redux/store'
 import { connect } from 'react-redux'
 import { Location } from '../redux/locations/types'
-import { Text } from 'react-native'
-import { ListItem, Header } from 'react-native-elements'
-import { NavigationAction } from 'react-navigation'
+import { ListItem, SearchBar } from 'react-native-elements'
 
 type Props = {
   locations: Location[]
@@ -13,8 +15,19 @@ type Props = {
 }
 
 const Dashboard = ({ locations, navigation }: Props) => {
+  const [searchBarValue, setSearchBarValue] = useState('')
+  const onSearch = (search: string) => {
+    setSearchBarValue(search)
+  }
   return (
     <Fragment>
+      <View>
+        <SearchBar
+          placeholder="Search locations"
+          value={searchBarValue}
+          onChangeText={onSearch}
+        />
+      </View>
       <View>
         {locations.map(location => (
           <ListItem

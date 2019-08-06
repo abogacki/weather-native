@@ -1,40 +1,18 @@
 export type Weather = {
   id: number
   location: number
-  currently: Currently
+  currently: CurrentForcast
   daily: Daily
 }
 
-export type Currently = {
-  time: number
-  summary: string
-  icon: string
-  nearestStormDistance: number
-  temperature: string
-  apparentTemperature: string
-  humidity: string
-  pressure: string
-  windSpeed: string
-  windGust: string
-  windBearing: string
-  cloudCover: string
-  uvIndex: string
-  visibility: string
-  ozone: string
-}
-
 export type Daily = {
-  data: Day[]
+  data: DayForecast[]
 }
 
-export type Day = {
+export type Forecast = {
   time: number
   summary: string
   icon: string
-  temperatureHigh: number
-  temperatureLow: number
-  apparentTemperatureHigh: number
-  apparentTemperatureLow: number
   humidity: number
   pressure: number
   windSpeed: number
@@ -45,6 +23,19 @@ export type Day = {
   uvIndex: number
   visibility: number
   ozone: number
+}
+
+export interface CurrentForcast extends Forecast {
+  apparentTemperature: number // number specific - celcius or fahrenheit
+  temperature: number // number specific - celcius or fahrenheit
+  nearestStormDistance: number // specified nuber
+}
+
+export interface DayForecast extends Forecast {
+  temperatureHigh: number
+  temperatureLow: number
+  apparentTemperatureHigh: number
+  apparentTemperatureLow: number
   temperatureMin: number
   temperatureMax: number
   apparentTemperatureMin: number

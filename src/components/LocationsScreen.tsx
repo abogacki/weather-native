@@ -1,33 +1,20 @@
-import React, { Fragment, useState } from 'react'
-import {
-  View,
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
-} from 'react-native'
+import React, { Fragment } from 'react'
+import { View } from 'react-native'
 import { AppState } from '../redux/store'
 import { connect } from 'react-redux'
 import { Location } from '../redux/locations/types'
-import { ListItem, SearchBar } from 'react-native-elements'
+import { ListItem } from 'react-native-elements'
+import LocationsForm from './LocationsForm'
 
-type Props = {
+type LocationsScreenProps = {
   locations: Location[]
   navigation: any
 }
 
-const Dashboard = ({ locations, navigation }: Props) => {
-  const [searchBarValue, setSearchBarValue] = useState('')
-  const onSearch = (search: string) => {
-    setSearchBarValue(search)
-  }
+const LocationsScreen = ({ locations, navigation }: LocationsScreenProps) => {
   return (
     <Fragment>
-      <View>
-        <SearchBar
-          placeholder="Search locations"
-          value={searchBarValue}
-          onChangeText={onSearch}
-        />
-      </View>
+      <LocationsForm />
       <View>
         {locations.map(location => (
           <ListItem
@@ -39,7 +26,7 @@ const Dashboard = ({ locations, navigation }: Props) => {
               name: 'map',
             }}
             onPress={() =>
-              navigation.navigate('Location', {
+              navigation.navigate('Weather', {
                 id: location.id,
                 name: location.name,
               })
@@ -51,7 +38,7 @@ const Dashboard = ({ locations, navigation }: Props) => {
   )
 }
 
-Dashboard.navigationOptions = {
+LocationsScreen.navigationOptions = {
   title: 'Locations',
 }
 
@@ -59,4 +46,4 @@ const mapStateToProps = (state: AppState) => ({
   locations: state.locations.allLocationIds.map(id => state.locations.byId[id]),
 })
 
-export default connect(mapStateToProps)(Dashboard)
+export default connect(mapStateToProps)(LocationsScreen)

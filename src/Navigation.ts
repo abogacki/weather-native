@@ -1,15 +1,14 @@
 import { createStackNavigator, createAppContainer } from 'react-navigation'
-import Dashboard from './components/Dashboard'
-import Location from './components/Location'
-import AppHeader from './components/AppHeader'
+import LocationsScreen from './components/LocationsScreen'
+import WeatherScreen from './components/WeatherScreen'
 
 const MainNavigator = createStackNavigator(
   {
-    Dashboard: { screen: Dashboard },
-    Location: { screen: Location },
+    Locations: { screen: LocationsScreen },
+    Weather: { screen: WeatherScreen },
   },
   {
-    initialRouteName: 'Dashboard',
+    initialRouteName: 'Locations',
   }
 )
 

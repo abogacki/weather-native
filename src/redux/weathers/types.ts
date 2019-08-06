@@ -1,12 +1,8 @@
 export type Weather = {
   id: number
-  location: number
+  locationId: number
   currently: CurrentForcast
-  daily: Daily
-}
-
-export type Daily = {
-  data: DayForecast[]
+  daily: DayForecast[]
 }
 
 export type Forecast = {
@@ -17,7 +13,6 @@ export type Forecast = {
   pressure: number
   windSpeed: number
   windGust: number
-  windGustTime: number
   windBearing: number
   cloudCover: number
   uvIndex: number
@@ -42,43 +37,32 @@ export interface DayForecast extends Forecast {
   apparentTemperatureMax: number
 }
 
-export type Point = {
-  latitude: number
-  longitude: number
-}
-
-export type WeatherState = {
+export type WeathersState = {
   byId: { [id: string]: Weather }
-  allLocationIds: string[]
+  allWeathersIds: string[]
 }
 
-export const CREATE_LOCATION = 'CREATE_LOCATION'
-export const REMOVE_LOCATION = 'REMOVE_LOCATION'
-export const UPDATE_LOCATION = 'UPDATE_LOCATION'
+export const ADD_WEATHER = 'ADD_WEATHER'
+export const REMOVE_WEATHER = 'REMOVE_WEATHER'
+export const UPDATE_WEATHER = 'UPDATE_WEATHER'
 
-type CreateLocation = {
-  type: typeof CREATE_LOCATION
+type CreateWeather = {
+  type: typeof ADD_WEATHER
+  locationId: number
+}
+
+type RemoveWeather = {
+  type: typeof REMOVE_WEATHER
+  id: number
+}
+
+type UpdateWeather = {
+  type: typeof UPDATE_WEATHER
   payload: {
-    name: string
-    point: Point
+    id: number
+    currently: CurrentForcast
+    daily: DayForecast[]
   }
 }
 
-type RemoveLocation = {
-  type: typeof REMOVE_LOCATION
-  id: string
-}
-
-type UpdateLocation = {
-  type: typeof UPDATE_LOCATION
-  payload: {
-    id: string
-    name: string
-    point: Point
-  }
-}
-
-export type LocationActionTypes =
-  | CreateLocation
-  | RemoveLocation
-  | UpdateLocation
+export type WeatherActionTypes = CreateWeather | RemoveWeather | UpdateWeather

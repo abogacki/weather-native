@@ -4,13 +4,13 @@ import { AppState } from '../redux/store'
 import { connect } from 'react-redux'
 import { NavigationNavigator } from 'react-navigation'
 import { Location } from '../redux/locations/types'
-import { ListItem, SearchBar } from 'react-native-elements'
+import { ListItem } from 'react-native-elements'
 
 type NavigationProps = {
   navigation: NavigationNavigator
 }
 
-class LocationScreen extends React.Component<NavigationProps & Location> {
+class WeatherScreen extends React.Component<NavigationProps & Location> {
   public static navigationOptions = {
     title: 'Weather',
   }
@@ -42,4 +42,4 @@ const mapStateToProps = (state: AppState, ownProps: NavigationProps) => {
   }
 }
 
-export default connect(mapStateToProps)(LocationScreen)
+export default connect(mapStateToProps)(WeatherScreen)

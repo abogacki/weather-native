@@ -6,37 +6,12 @@ import {
   CREATE_LOCATION,
   UPDATE_LOCATION,
   REMOVE_LOCATION,
+  LocationProps,
 } from './types'
 
 const initialState: LocationsState = {
-  byId: {
-    '1': {
-      id: 1,
-      name: 'Poznan',
-      point: { latitude: 170.323, longitude: 90.0 },
-    },
-    '2': {
-      id: 2,
-      name: 'Poznan',
-      point: { latitude: 270.323, longitude: 90.0 },
-    },
-    '3': {
-      id: 3,
-      name: 'Poznan',
-      point: { latitude: 370.323, longitude: 90.0 },
-    },
-    '4': {
-      id: 4,
-      name: 'Poznan',
-      point: { latitude: 470.323, longitude: 90.0 },
-    },
-    '5': {
-      id: 5,
-      name: 'Poznan',
-      point: { latitude: 570.323, longitude: 90.0 },
-    },
-  },
-  allLocationIds: ['1', '2', '3', '4', '5'],
+  byId: {},
+  allLocationIds: [],
 }
 
 export default function locationsReducer(
@@ -78,4 +53,8 @@ export default function locationsReducer(
       return state
     }
   }
+}
+
+export const addLocation = (data: LocationProps): LocationActionTypes => {
+  return { type: CREATE_LOCATION, payload: data }
 }

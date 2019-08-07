@@ -1,14 +1,8 @@
-import { Point, Location } from './types'
+import { Location, LocationProps } from './types'
 
-let id = -1
+let id = 0
 
-export function createLocation({
-  name,
-  point,
-}: {
-  name: string
-  point: Point
-}): Location {
+export function createLocation({ name, point }: LocationProps): Location {
   return {
     id: id++,
     name,

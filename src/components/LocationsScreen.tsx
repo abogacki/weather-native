@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react'
-import { View } from 'react-native'
 import { AppState } from '../redux/store'
 import { connect } from 'react-redux'
 import { Location } from '../redux/locations/types'
 import { ListItem } from 'react-native-elements'
 import LocationsForm from './LocationsForm'
+import { ScrollView } from 'react-native-gesture-handler'
 
 type LocationsScreenProps = {
   locations: Location[]
@@ -15,7 +15,7 @@ const LocationsScreen = ({ locations, navigation }: LocationsScreenProps) => {
   return (
     <Fragment>
       <LocationsForm />
-      <View>
+      <ScrollView>
         {locations.map(location => (
           <ListItem
             key={location.id}
@@ -33,7 +33,7 @@ const LocationsScreen = ({ locations, navigation }: LocationsScreenProps) => {
             }
           />
         ))}
-      </View>
+      </ScrollView>
     </Fragment>
   )
 }

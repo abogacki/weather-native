@@ -1,45 +1,114 @@
-import React, { Fragment } from 'react'
-import { View } from 'react-native'
+import React from 'react'
+import { Dispatch } from 'redux'
+import { ScrollView, Text } from 'react-native'
 import { AppState } from '../redux/store'
 import { connect } from 'react-redux'
-import { NavigationNavigator } from 'react-navigation'
 import { Location } from '../redux/locations/types'
-import { ListItem } from 'react-native-elements'
+import find from 'lodash/find'
+import { createSelector } from 'reselect'
+import { Weather, WeatherActionTypes } from '../redux/weathers/types'
+import { bindActionCreators } from 'redux'
+import { addWeather } from '../redux/weathers'
+import { Card } from 'react-native-elements'
 
-type NavigationProps = {
-  navigation: NavigationNavigator
+type WeatherScreenProps = {
+  location: Location
+  weather: Weather | undefined | any
+  addWeather(locationId: number): WeatherActionTypes
 }
 
-class WeatherScreen extends React.Component<NavigationProps & Location> {
+type NavigationProps = {
+  navigation: {
+    getParam(id: string): string
+  }
+}
+
+class WeatherScreen extends React.Component<
+  WeatherScreenProps & NavigationProps
+> {
   public static navigationOptions = {
     title: 'Weather',
   }
 
+  public async componentDidMount() {
+    if (!this.props.weather) {
+      this.props.addWeather(this.props.location.id)
+    }
+  }
+
   public render() {
+    console.log(this.props.weather)
+
     return (
-      <View>
-        <ListItem title="Location Id" subtitle={this.props.id.toString()} />
-        <ListItem title="Name" subtitle={this.props.name} />
-        <ListItem
-          title="Point"
-          subtitle={`${this.props.point.latitude}, ${
-            this.props.point.longitude
-          }`}
-        />
-      </View>
+      <ScrollView>
+        <Card title="Location">
+          <Text>{this.props.location.name}</Text>
+          <Text>latitude:{this.props.location.point.latitude.toString()}</Text>
+          <Text>
+            longitude:{this.props.location.point.longitude.toString()}
+          </Text>
+        </Card>
+        <Card title="Weather">
+          <Text>Summary:</Text>
+          <Text>Temperature:</Text>
+          <Text>Wind:</Text>
+          <Text>UV index:</Text>
+        </Card>
+        <Card title="Forecast">
+          <Text>MON</Text>
+          <Text>TUE</Text>
+          <Text>WED</Text>
+          <Text>THU</Text>
+          <Text>FRI</Text>
+          <Text>SAT</Text>
+          <Text>SUN</Text>
+        </Card>
+      </ScrollView>
     )
   }
 }
 
-const getLocationById = (state: AppState, id: number | string) => {
-  return state.locations.byId[id]
+const getLocationId = (state: AppState, props: NavigationProps) =>
+  parseInt(props.navigation.getParam('id'), 10)
+
+const getLocationById = (state: AppState, props: NavigationProps) => {
+  return state.locations.byId[parseInt(props.navigation.getParam('id'), 10)]
 }
 
-const mapStateToProps = (state: AppState, ownProps: NavigationProps) => {
-  const id = ownProps.navigation.getParam('id')
-  return {
-    ...getLocationById(state, id),
+const getAllWeatherIds = (state: AppState) => {
+  return state.weathers.allWeathersIds
+}
+
+const getAllWeatherByIds = (state: AppState) => {
+  return state.weathers.byId
+}
+
+const getAllWeathers = createSelector(
+  [getAllWeatherByIds, getAllWeatherIds],
+  (byId, ids) => {
+    return ids.map(id => byId[id])
   }
-}
+)
 
-export default connect(mapStateToProps)(WeatherScreen)
+const getWeatherByLocationId = createSelector(
+  [getLocationId, getAllWeathers],
+  (locationId, allWeathersCollection) => {
+    console.log(allWeathersCollection)
+
+    const res = find(allWeathersCollection, { locationId })
+    return res
+  }
+)
+
+const mapStateToProps = (state: AppState, props: NavigationProps) => ({
+  location: getLocationById(state, props),
+  weather: getWeatherByLocationId(state, props),
+})
+
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators({ addWeather }, dispatch)
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WeatherScreen)

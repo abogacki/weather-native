@@ -1,12 +1,17 @@
-export type Location = {
-  id: number
+export type Point = {
+  latitude: number
+  longitude: number
+}
+
+export type LocationProps = {
   name: string
   point: Point
 }
 
-export type Point = {
-  latitude: number
-  longitude: number
+export interface Location extends LocationProps {
+  id: number
+  name: string
+  point: Point
 }
 
 export type LocationsState = {

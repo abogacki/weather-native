@@ -1,41 +1,55 @@
 import { Component } from 'react'
 import { View } from 'react-native'
 import React from 'react'
-import { SearchBar, Text } from 'react-native-elements'
-import debounce from 'lodash/debounce'
-import { BehaviorSubject, Subject } from 'rxjs'
+import { SearchBar, ListItem, Icon } from 'react-native-elements'
+import { Subject } from 'rxjs'
 import LocationService from '../services/LocationService'
+import { ScrollView } from 'react-native-gesture-handler'
+import { connect } from 'react-redux'
+import { Dispatch, bindActionCreators } from 'redux'
+import { addLocation } from '../redux/locations'
+import { LocationProps } from '../redux/locations/types'
 
 type State = {
   isLoading: boolean
   searchValue: string
-  result: any
+  locations: LocationResponseData[]
 }
 
-type Props = {}
+type LocationResponseData = {
+  formatted: string
+  geometry: {
+    lng: number
+    lat: number
+  }
+}
 
-export default class LocationsForm extends Component<Props, State> {
+type Props = {
+  addLocation(data: LocationProps): void
+}
+
+class LocationsForm extends Component<Props, State> {
   public state: State = {
     isLoading: false,
     searchValue: '',
-    result: {},
+    locations: [],
   }
-  public input$!: BehaviorSubject<string>
-  public fetch$: any
+  public input$!: Subject<string>
+  public fetch$!: Subject<any>
 
   constructor(props: Props) {
     super(props)
-
-    this.input$ = new BehaviorSubject('')
+    this.input$ = new Subject()
   }
 
   public componentDidMount() {
     this.fetch$ = LocationService.createFetchStream(this.input$)
-    this.fetch$.subscribe(result => {
-      this.setState({ result })
+    this.fetch$.subscribe((locations: []) => {
+      this.setState({ locations })
     })
-    this.input$.subscribe(search =>
-      this.setState({ searchValue: search, result: {} })
+
+    this.input$.subscribe(
+      search => search && this.setState({ searchValue: search, locations: [] })
     )
   }
 
@@ -44,15 +58,14 @@ export default class LocationsForm extends Component<Props, State> {
     this.fetch$.unsubscribe()
   }
 
+  public submitLocation(data: LocationProps) {
+    this.props.addLocation(data)
+    this.setState({ locations: [], searchValue: '' })
+  }
+
   public render() {
     return (
       <View>
-        <View>
-          <Text>Result</Text>
-          <Text>
-            {this.state.result.latitude || 0},{this.state.result.longitude || 0}
-          </Text>
-        </View>
         <SearchBar
           placeholder="Search locations"
           onChangeText={search => {
@@ -62,11 +75,40 @@ export default class LocationsForm extends Component<Props, State> {
           value={this.state.searchValue}
           showLoading={this.state.isLoading}
         />
+        <ScrollView>
+          {this.state.locations.map((l, i) => (
+            <ListItem
+              key={i}
+              title={l.formatted}
+              subtitle={`${l.geometry.lat}, ${l.geometry.lng}`}
+              onPress={() =>
+                this.submitLocation({
+                  name: l.formatted,
+                  point: {
+                    latitude: l.geometry.lat,
+                    longitude: l.geometry.lng,
+                  },
+                })
+              }
+              rightIcon={<Icon name="add" />}
+            />
+          ))}
+        </ScrollView>
       </View>
     )
   }
 }
 
-function sleep(ms: number = 1000) {
-  return new Promise(resolve => setTimeout(resolve, ms))
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return bindActionCreators(
+    {
+      addLocation,
+    },
+    dispatch
+  )
 }
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(LocationsForm)

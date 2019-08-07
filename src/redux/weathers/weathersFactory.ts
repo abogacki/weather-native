@@ -1,6 +1,6 @@
 import { Weather } from './types'
 
-let id: number = -1
+let id = 0
 
 export const createWeather = (locationId: number): Weather => {
   return {

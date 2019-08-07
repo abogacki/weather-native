@@ -4,14 +4,16 @@ import {
   ADD_WEATHER,
   REMOVE_WEATHER,
   UPDATE_WEATHER,
-  CurrentForcast,
-  DayForecast,
+  FETCH_WEATHER_REQUEST,
+  FETCH_WEATHER_ERROR,
 } from './types'
+
 import { createWeather } from './weathersFactory'
 
 const initialState: WeathersState = {
   byId: {},
   allWeathersIds: [],
+  isLoading: false,
 }
 
 export default function weathersReducer(
@@ -19,6 +21,16 @@ export default function weathersReducer(
   action: WeatherActionTypes
 ): WeathersState {
   switch (action.type) {
+    case FETCH_WEATHER_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case FETCH_WEATHER_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+      }
     case ADD_WEATHER:
       const newWeather = createWeather(action.locationId)
       return {
@@ -37,7 +49,7 @@ export default function weathersReducer(
             }
             return all
           },
-          { byId: {}, allWeathersIds: [] }
+          { byId: {}, allWeathersIds: [], isLoading: false }
         ),
       }
     case UPDATE_WEATHER:
@@ -53,29 +65,7 @@ export default function weathersReducer(
   }
 }
 
-export const addWeather = (locationId: number): WeatherActionTypes => {
-  return { type: ADD_WEATHER, locationId }
-}
-
-export const updateWeather = ({
-  id,
-  currently,
-  daily,
-}: {
-  id: number
-  currently: CurrentForcast
-  daily: DayForecast[]
-}): WeatherActionTypes => {
-  return {
-    type: UPDATE_WEATHER,
-    payload: {
-      id,
-      currently,
-      daily,
-    },
-  }
-}
-
-export const removeWeather = (id: number): WeatherActionTypes => {
-  return { type: REMOVE_WEATHER, id }
-}
+// export actions
+export * from './actions'
+// export epics
+export * from './epics'

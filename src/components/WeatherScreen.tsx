@@ -32,13 +32,11 @@ class WeatherScreen extends React.Component<
 
   public async componentDidMount() {
     if (!this.props.weather) {
-      this.props.addWeather(this.props.location.id)
+      await this.props.addWeather(this.props.location.id)
     }
   }
 
   public render() {
-    console.log(this.props.weather)
-
     return (
       <ScrollView>
         <Card title="Location">

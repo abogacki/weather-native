@@ -40,23 +40,26 @@ export interface DayForecast extends Forecast {
 export type WeathersState = {
   byId: { [id: string]: Weather }
   allWeathersIds: string[]
+  isLoading: boolean
 }
 
 export const ADD_WEATHER = 'ADD_WEATHER'
 export const REMOVE_WEATHER = 'REMOVE_WEATHER'
 export const UPDATE_WEATHER = 'UPDATE_WEATHER'
+export const FETCH_WEATHER_REQUEST = 'FETCH_WEATHER_REQUEST'
+export const FETCH_WEATHER_ERROR = 'FETCH_WEATHER_ERROR'
 
-type CreateWeather = {
+export type CreateWeather = {
   type: typeof ADD_WEATHER
   locationId: number
 }
 
-type RemoveWeather = {
+export type RemoveWeather = {
   type: typeof REMOVE_WEATHER
   id: number
 }
 
-type UpdateWeather = {
+export type UpdateWeather = {
   type: typeof UPDATE_WEATHER
   payload: {
     id: number
@@ -65,4 +68,23 @@ type UpdateWeather = {
   }
 }
 
-export type WeatherActionTypes = CreateWeather | RemoveWeather | UpdateWeather
+export type FetchWeatherRequest = {
+  type: typeof FETCH_WEATHER_REQUEST
+  payload: {
+    latitude: number
+    longitude: number
+    id: number
+  }
+}
+
+export type FetchWeatherError = {
+  type: typeof FETCH_WEATHER_ERROR
+  error: Error
+}
+
+export type WeatherActionTypes =
+  | CreateWeather
+  | RemoveWeather
+  | UpdateWeather
+  | FetchWeatherRequest
+  | FetchWeatherError

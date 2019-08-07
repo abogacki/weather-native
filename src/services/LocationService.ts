@@ -15,7 +15,7 @@ export default class LocationService {
 }
 
 // location Api service?
-async function openGateApiRequest(locationName: string) {
+export async function openGateApiRequest(locationName: string) {
   const url = `https://api.opencagedata.com/geocode/v1/json?q=${locationName}&key=3117f484e30440678b3e5da0e6c238e9`
 
   interface ServerResponse {
@@ -32,6 +32,6 @@ async function openGateApiRequest(locationName: string) {
   }
 }
 
-function sleep(ms = 1000) {
+export function sleep(ms = 1000) {
   return new Promise(resolve => setTimeout(resolve, 200))
 }

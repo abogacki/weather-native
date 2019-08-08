@@ -4,12 +4,15 @@ import { ScrollView, Text, View } from 'react-native'
 import { AppState } from '../redux/store'
 import { connect } from 'react-redux'
 import { Location, Point } from '../redux/locations/types'
-import find from 'lodash/find'
-import { createSelector } from 'reselect'
 import { Weather, WeatherActionTypes } from '../redux/weathers/types'
 import { bindActionCreators } from 'redux'
-import { addWeather, fetchWeatherRequest } from '../redux/weathers'
+import {
+  addWeather,
+  fetchWeatherRequest,
+  getWeatherByLocationId,
+} from '../redux/weathers'
 import { Card } from 'react-native-elements'
+import { getLocationById } from '../redux/locations'
 
 type WeatherScreenProps = {
   location: Location
@@ -39,13 +42,9 @@ class WeatherScreen extends React.Component<
 
   public async componentDidMount() {
     const { weather, location } = this.props
-    console.log(weather)
-
     if (!weather) {
-      console.log(location.id)
       await this.props.addWeather(location.id)
     }
-
     if (weather && location) {
       this.props.fetchWeatherRequest({
         id: weather.id,
@@ -58,10 +57,8 @@ class WeatherScreen extends React.Component<
     const { weather, location } = this.props
     return (
       <ScrollView>
-        <Card title="Location">
-          <Text>{location.name}</Text>
-          <Text>latitude:{location.point.latitude.toString()}</Text>
-          <Text>longitude:{location.point.longitude.toString()}</Text>
+        <Card title={`Today in ${location.name.split(' ')[0]} is...`}>
+          <Text>{weather && weather.currently.summary}</Text>
         </Card>
         <Card title="Weather">
           <Text>
@@ -102,36 +99,6 @@ class WeatherScreen extends React.Component<
     )
   }
 }
-
-const getLocationId = (state: AppState, props: NavigationProps) =>
-  parseInt(props.navigation.getParam('id'), 10)
-
-const getLocationById = (state: AppState, props: NavigationProps) => {
-  return state.locations.byId[parseInt(props.navigation.getParam('id'), 10)]
-}
-
-const getAllWeatherIds = (state: AppState) => {
-  return state.weathers.allWeathersIds
-}
-
-const getAllWeatherByIds = (state: AppState) => {
-  return state.weathers.byId
-}
-
-const getAllWeathers = createSelector(
-  [getAllWeatherByIds, getAllWeatherIds],
-  (byId, ids) => {
-    return ids.map(id => byId[id])
-  }
-)
-
-const getWeatherByLocationId = createSelector(
-  [getLocationId, getAllWeathers],
-  (locationId, allWeathersCollection) => {
-    const res = find(allWeathersCollection, { locationId })
-    return res
-  }
-)
 
 const mapStateToProps = (state: AppState, props: NavigationProps) => ({
   location: getLocationById(state, props),

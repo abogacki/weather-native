@@ -58,3 +58,5 @@ export default function locationsReducer(
 export const addLocation = (data: LocationProps): LocationActionTypes => {
   return { type: CREATE_LOCATION, payload: data }
 }
+
+export * from './selectors'

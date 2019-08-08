@@ -8,7 +8,7 @@ import {
   FETCH_WEATHER_REQUEST,
   FETCH_WEATHER_ERROR,
 } from './types'
-import { Location, Point } from '../locations/types'
+import { Point } from '../locations/types'
 
 export const addWeather = (locationId: number): WeatherActionTypes => {
   return { type: ADD_WEATHER, locationId }

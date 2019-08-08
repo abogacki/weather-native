@@ -1,20 +1,27 @@
 import React from 'react'
 import { Dispatch } from 'redux'
-import { ScrollView, Text } from 'react-native'
+import { ScrollView, Text, View } from 'react-native'
 import { AppState } from '../redux/store'
 import { connect } from 'react-redux'
-import { Location } from '../redux/locations/types'
+import { Location, Point } from '../redux/locations/types'
 import find from 'lodash/find'
 import { createSelector } from 'reselect'
 import { Weather, WeatherActionTypes } from '../redux/weathers/types'
 import { bindActionCreators } from 'redux'
-import { addWeather } from '../redux/weathers'
+import { addWeather, fetchWeatherRequest } from '../redux/weathers'
 import { Card } from 'react-native-elements'
 
 type WeatherScreenProps = {
   location: Location
-  weather: Weather | undefined | any
+  weather: Weather | undefined
   addWeather(locationId: number): WeatherActionTypes
+  fetchWeatherRequest({
+    id,
+    point,
+  }: {
+    id: number
+    point: Point
+  }): WeatherActionTypes
 }
 
 type NavigationProps = {
@@ -31,35 +38,65 @@ class WeatherScreen extends React.Component<
   }
 
   public async componentDidMount() {
-    if (!this.props.weather) {
-      await this.props.addWeather(this.props.location.id)
+    const { weather, location } = this.props
+    console.log(weather)
+
+    if (!weather) {
+      console.log(location.id)
+      await this.props.addWeather(location.id)
+    }
+
+    if (weather && location) {
+      this.props.fetchWeatherRequest({
+        id: weather.id,
+        point: location.point,
+      })
     }
   }
 
   public render() {
+    const { weather, location } = this.props
     return (
       <ScrollView>
         <Card title="Location">
-          <Text>{this.props.location.name}</Text>
-          <Text>latitude:{this.props.location.point.latitude.toString()}</Text>
-          <Text>
-            longitude:{this.props.location.point.longitude.toString()}
-          </Text>
+          <Text>{location.name}</Text>
+          <Text>latitude:{location.point.latitude.toString()}</Text>
+          <Text>longitude:{location.point.longitude.toString()}</Text>
         </Card>
         <Card title="Weather">
-          <Text>Summary:</Text>
-          <Text>Temperature:</Text>
-          <Text>Wind:</Text>
-          <Text>UV index:</Text>
+          <Text>
+            Summary:
+            {weather && weather.currently.summary}
+          </Text>
+          <Text>
+            Temperature:
+            {weather && weather.currently.temperature}
+          </Text>
+          <Text>
+            Wind:
+            {weather && weather.currently.windSpeed}
+          </Text>
+          <Text>
+            UV index:
+            {weather && weather.currently.uvIndex}
+          </Text>
         </Card>
         <Card title="Forecast">
-          <Text>MON</Text>
-          <Text>TUE</Text>
-          <Text>WED</Text>
-          <Text>THU</Text>
-          <Text>FRI</Text>
-          <Text>SAT</Text>
-          <Text>SUN</Text>
+          <View>
+            {weather &&
+              weather.daily.length > 0 &&
+              weather.daily.map((day, index) => {
+                return (
+                  <View key={index}>
+                    <Text>
+                      {new Date(day.time * 1000).toLocaleDateString()}
+                    </Text>
+                    <Text>{day.temperatureHigh}</Text>
+                    <Text>{day.temperatureLow}</Text>
+                  </View>
+                )
+              })}
+          </View>
         </Card>
       </ScrollView>
     )
@@ -91,8 +128,6 @@ const getAllWeathers = createSelector(
 const getWeatherByLocationId = createSelector(
   [getLocationId, getAllWeathers],
   (locationId, allWeathersCollection) => {
-    console.log(allWeathersCollection)
-
     const res = find(allWeathersCollection, { locationId })
     return res
   }
@@ -104,7 +139,7 @@ const mapStateToProps = (state: AppState, props: NavigationProps) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators({ addWeather }, dispatch)
+  bindActionCreators({ addWeather, fetchWeatherRequest }, dispatch)
 
 export default connect(
   mapStateToProps,

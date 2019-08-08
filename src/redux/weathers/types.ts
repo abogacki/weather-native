@@ -79,7 +79,10 @@ export type FetchWeatherRequest = {
 
 export type FetchWeatherError = {
   type: typeof FETCH_WEATHER_ERROR
-  error: Error
+  payload: {
+    error: Error
+    id?: number
+  }
 }
 
 export type WeatherActionTypes =

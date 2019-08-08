@@ -8,7 +8,7 @@ import {
   FETCH_WEATHER_REQUEST,
   FETCH_WEATHER_ERROR,
 } from './types'
-import { Location } from '../locations/types'
+import { Location, Point } from '../locations/types'
 
 export const addWeather = (locationId: number): WeatherActionTypes => {
   return { type: ADD_WEATHER, locationId }
@@ -40,7 +40,10 @@ export const removeWeather = (id: number): WeatherActionTypes => {
 export const fetchWeatherRequest = ({
   id,
   point: { latitude, longitude },
-}: Location): WeatherActionTypes => {
+}: {
+  id: number
+  point: Point
+}): WeatherActionTypes => {
   return { type: FETCH_WEATHER_REQUEST, payload: { id, latitude, longitude } }
 }
 

@@ -53,11 +53,17 @@ export default function weathersReducer(
         ),
       }
     case UPDATE_WEATHER:
+      console.log(action.payload)
+      console.log(state.byId[action.payload.id])
+
       return {
         ...state,
         byId: {
           ...state.byId,
-          [action.payload.id]: { ...action.payload },
+          [action.payload.id]: {
+            ...state.byId[action.payload.id],
+            ...action.payload,
+          },
         },
       }
     default:

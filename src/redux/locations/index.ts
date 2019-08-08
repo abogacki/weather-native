@@ -10,8 +10,17 @@ import {
 } from './types'
 
 const initialState: LocationsState = {
-  byId: {},
-  allLocationIds: [],
+  byId: {
+    1: {
+      id: 1,
+      name: 'Poznań',
+      point: {
+        latitude: 52.04,
+        longitude: 16.9333,
+      },
+    },
+  },
+  allLocationIds: ['1'],
 }
 
 export default function locationsReducer(

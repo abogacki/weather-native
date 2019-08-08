@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Dispatch } from 'redux'
-import { ScrollView, Text, View } from 'react-native'
+import { ScrollView, Text, View, StyleSheet } from 'react-native'
 import { AppState } from '../redux/store'
 import { connect } from 'react-redux'
 import { Location, Point } from '../redux/locations/types'
@@ -11,8 +11,9 @@ import {
   fetchWeatherRequest,
   getWeatherByLocationId,
 } from '../redux/weathers'
-import { Card } from 'react-native-elements'
 import { getLocationById } from '../redux/locations'
+import WeatherCurrently from './WeatherCurrently'
+import WeatherDaily from './WeatherDaily'
 
 type WeatherScreenProps = {
   location: Location
@@ -57,44 +58,15 @@ class WeatherScreen extends React.Component<
     const { weather, location } = this.props
     return (
       <ScrollView>
-        <Card title={`Today in ${location.name.split(' ')[0]} is...`}>
-          <Text>{weather && weather.currently.summary}</Text>
-        </Card>
-        <Card title="Weather">
-          <Text>
-            Summary:
-            {weather && weather.currently.summary}
-          </Text>
-          <Text>
-            Temperature:
-            {weather && weather.currently.temperature}
-          </Text>
-          <Text>
-            Wind:
-            {weather && weather.currently.windSpeed}
-          </Text>
-          <Text>
-            UV index:
-            {weather && weather.currently.uvIndex}
-          </Text>
-        </Card>
-        <Card title="Forecast">
-          <View>
-            {weather &&
-              weather.daily.length > 0 &&
-              weather.daily.map((day, index) => {
-                return (
-                  <View key={index}>
-                    <Text>
-                      {new Date(day.time * 1000).toLocaleDateString()}
-                    </Text>
-                    <Text>{day.temperatureHigh}</Text>
-                    <Text>{day.temperatureLow}</Text>
-                  </View>
-                )
-              })}
-          </View>
-        </Card>
+        {weather && (
+          <Fragment>
+            <WeatherCurrently
+              locationName={location.name}
+              currently={weather.currently}
+            />
+            <WeatherDaily daily={weather.daily} />
+          </Fragment>
+        )}
       </ScrollView>
     )
   }

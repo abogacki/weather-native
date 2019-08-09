@@ -13,6 +13,8 @@ type ListItemProps = {
 
 const WeatherDailyListItem = ({ day }: ListItemProps) => {
   const [isExpanded, setIsExpanded] = useState(false)
+  console.log(day)
+
   return (
     <ListItemTouchableScale
       chevron={{
@@ -37,23 +39,30 @@ const WeatherDailyListItem = ({ day }: ListItemProps) => {
                 <Text style={styles.forecastSubtitle}>temp </Text>
                 <FontAwesome5Icon name="arrow-up" />
               </View>
-              <Text style={styles.forecastSubtitle}>
-                {day.temperatureHigh.toString()}
-              </Text>
+              <Text>{day.temperatureHigh.toString()} °C</Text>
             </View>
             <View style={{ margin: 1, justifyContent: 'flex-start' }}>
               <View style={styles.row}>
                 <Text style={styles.forecastSubtitle}>temp </Text>
                 <FontAwesome5Icon name="arrow-down" />
               </View>
-              <Text style={styles.forecastSubtitle}>
-                {day.temperatureLow.toString()}
-              </Text>
+              <Text>{day.temperatureLow.toString()} °C</Text>
             </View>
           </View>
           {isExpanded && (
-            <View>
-              <Text>Show only when expanded</Text>
+            <View style={[styles.row, styles.forecastDetails]}>
+              <View style={[styles.column]}>
+                <Text style={styles.forecastSubtitle}>cloud cover</Text>
+                <Text> {day.cloudCover}</Text>
+              </View>
+              <View style={[styles.column]}>
+                <Text style={styles.forecastSubtitle}>humidity</Text>
+                <Text> {day.humidity * 100} %</Text>
+              </View>
+              <View style={[styles.column]}>
+                <Text style={styles.forecastSubtitle}>Pressure</Text>
+                <Text> {day.pressure} hPa</Text>
+              </View>
             </View>
           )}
         </View>
@@ -73,14 +82,23 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 0.7,
   },
+  forecastDetails: {},
+  column: {
+    marginTop: 10,
+  },
   leftAvatarIcon: { fontSize: 35, alignSelf: 'center' },
   contentIcon: { fontSize: 20, fontWeight: '100' },
-  row: { flex: 1, flexDirection: 'row' },
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
   multilineRow: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     flexWrap: 'wrap',
   },
 })

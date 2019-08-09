@@ -5,7 +5,9 @@ const types = {
   'partly-cloudy-day': 'cloud-sun',
 }
 
-export const translateIcon = icon => {
+type IconName = keyof typeof types
+
+export const translateIcon = (icon: IconName) => {
   return types[icon] || 'compass'
 }
 

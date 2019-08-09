@@ -14,14 +14,17 @@ import { ThemeProvider } from 'react-native-elements'
 import store from './redux/store'
 import Navigation from './Navigation'
 import theme from './Theme'
+import { SharedElementRenderer } from 'react-native-motion'
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <Navigation />
-      </ThemeProvider>
-    </Provider>
+    <SharedElementRenderer>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <Navigation />
+        </ThemeProvider>
+      </Provider>
+    </SharedElementRenderer>
   )
 }
 

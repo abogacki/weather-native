@@ -9,6 +9,9 @@ import { connect } from 'react-redux'
 import { Dispatch, bindActionCreators } from 'redux'
 import { addLocation } from '../redux/locations'
 import { LocationProps } from '../redux/locations/types'
+import theme from '../Theme'
+import LocationsFormSearchBar from './LocationsFormSearchBar'
+import LocationsFormList from './LocationsFormList'
 
 type State = {
   isLoading: boolean
@@ -58,42 +61,28 @@ class LocationsForm extends Component<Props, State> {
     this.fetch$.unsubscribe()
   }
 
-  public submitLocation(data: LocationProps) {
+  public submitLocation = (data: LocationProps) => {
     this.props.addLocation(data)
     this.setState({ locations: [], searchValue: '' })
+  }
+
+  public onChangeText = (search: string) => {
+    this.input$.next(search)
+    this.setState({ searchValue: search })
   }
 
   public render() {
     return (
       <View>
-        <SearchBar
-          placeholder="Search locations"
-          onChangeText={search => {
-            this.input$.next(search)
-            this.setState({ searchValue: search })
-          }}
+        <LocationsFormSearchBar
+          onChangeText={this.onChangeText}
           value={this.state.searchValue}
-          showLoading={this.state.isLoading}
+          isLoading={this.state.isLoading}
         />
-        <ScrollView>
-          {this.state.locations.map((l, i) => (
-            <ListItem
-              key={i}
-              title={l.formatted}
-              subtitle={`${l.geometry.lat}, ${l.geometry.lng}`}
-              onPress={() =>
-                this.submitLocation({
-                  name: l.formatted,
-                  point: {
-                    latitude: l.geometry.lat,
-                    longitude: l.geometry.lng,
-                  },
-                })
-              }
-              rightIcon={<Icon name="add" />}
-            />
-          ))}
-        </ScrollView>
+        <LocationsFormList
+          onSubmit={this.submitLocation}
+          locations={this.state.locations}
+        />
       </View>
     )
   }

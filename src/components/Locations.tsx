@@ -10,7 +10,7 @@ import { ModifiedTheme } from '../Theme'
 
 type LocationsScreenProps = {
   locations: Location[]
-  navigation: any
+  navigation: any // find correct react-navigation type
   theme: ModifiedTheme
 }
 

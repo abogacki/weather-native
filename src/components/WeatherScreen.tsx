@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { Dispatch } from 'redux'
-import { ScrollView, Text, View, StyleSheet } from 'react-native'
+import { ScrollView } from 'react-native'
 import { AppState } from '../redux/store'
 import { connect } from 'react-redux'
 import { Location, Point } from '../redux/locations/types'

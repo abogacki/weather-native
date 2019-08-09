@@ -2,11 +2,12 @@ import React, { Fragment } from 'react'
 import { AppState } from '../redux/store'
 import { connect } from 'react-redux'
 import { Location } from '../redux/locations/types'
-import { ListItem, withTheme } from 'react-native-elements'
+import { withTheme } from 'react-native-elements'
 import LocationsForm from './LocationsForm'
 import { ScrollView } from 'react-native-gesture-handler'
 import { compose } from 'redux'
 import { ModifiedTheme } from '../Theme'
+import ListItemTouchableScale from './shared/ListItemTouchableScale'
 
 type LocationsScreenProps = {
   locations: Location[]
@@ -24,7 +25,8 @@ const LocationsScreen = ({
       <LocationsForm />
       <ScrollView style={theme.Container}>
         {locations.map(location => (
-          <ListItem
+          <ListItemTouchableScale
+            containerStyle={{ marginBottom: 10 }}
             key={location.id}
             title={location.name}
             subtitle={`${location.point.latitude},${location.point.longitude}`}

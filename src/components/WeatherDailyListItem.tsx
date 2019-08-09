@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { View, StyleSheet } from 'react-native'
-import { Text, ListItem } from 'react-native-elements'
+import { Text } from 'react-native-elements'
 import { DayForecast } from '../redux/weathers/types'
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5'
 import moment from 'moment'
 import { translateIcon } from '../services/IconService'
+import ListItemTouchableScale from './shared/ListItemTouchableScale'
 
 type ListItemProps = {
   day: DayForecast
@@ -13,25 +14,25 @@ type ListItemProps = {
 const WeatherDailyListItem = ({ day }: ListItemProps) => {
   const [isExpanded, setIsExpanded] = useState(false)
   return (
-    <ListItem
+    <ListItemTouchableScale
       chevron={{
         iconStyle: {
           transform: [{ rotate: isExpanded ? '90deg' : '0deg' }],
         },
       }}
+      onPress={() => setIsExpanded(!isExpanded)}
+      title={moment.unix(day.time * 1000).format('dddd')}
+      titleStyle={styles.forecastTitle}
       leftAvatar={
         <FontAwesome5Icon
           style={styles.leftAvatarIcon}
           name={translateIcon(day.icon)}
         />
       }
-      onPress={() => setIsExpanded(!isExpanded)}
-      title={moment.unix(day.time * 1000).format('dddd')}
-      titleStyle={styles.forecastTitle}
       subtitle={
         <View>
           <View style={[styles.multilineRow, { marginTop: 10 }]}>
-            <View style={{ margin: 1, justifyContent: 'flex-start' }}>
+            <View style={{ margin: 0, justifyContent: 'flex-start' }}>
               <View style={styles.row}>
                 <Text style={styles.forecastSubtitle}>temp </Text>
                 <FontAwesome5Icon name="arrow-up" />

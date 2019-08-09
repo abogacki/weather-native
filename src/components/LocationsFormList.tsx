@@ -1,9 +1,10 @@
 import { ScrollView } from 'react-native'
 import { ModifiedTheme } from '../Theme'
-import { Point, LocationProps } from '../redux/locations/types'
+import { LocationProps } from '../redux/locations/types'
 import React from 'react'
-import { ListItem, withTheme } from 'react-native-elements'
+import { withTheme } from 'react-native-elements'
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5'
+import ListItemTouchableScale from './shared/ListItemTouchableScale'
 
 type LocationsFormListProps = {
   theme: ModifiedTheme
@@ -19,7 +20,7 @@ const LocationsFormList = ({
   return (
     <ScrollView style={theme.Container}>
       {locations.map((l, i) => (
-        <ListItem
+        <ListItemTouchableScale
           key={i}
           title={l.formatted}
           subtitle={`${l.geometry.lat}, ${l.geometry.lng}`}

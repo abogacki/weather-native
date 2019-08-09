@@ -43,8 +43,6 @@ const theme: Theme<ContainerTheme> = {
       shadowRadius: 12.3,
 
       elevation: 13,
-      marginTop: 5,
-      marginBottom: 5,
     },
   },
   Container: {

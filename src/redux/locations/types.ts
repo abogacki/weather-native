@@ -23,7 +23,7 @@ export const CREATE_LOCATION = 'CREATE_LOCATION'
 export const REMOVE_LOCATION = 'REMOVE_LOCATION'
 export const UPDATE_LOCATION = 'UPDATE_LOCATION'
 
-type CreateLocation = {
+export type CreateLocation = {
   type: typeof CREATE_LOCATION
   payload: {
     name: string
@@ -31,12 +31,12 @@ type CreateLocation = {
   }
 }
 
-type RemoveLocation = {
+export type RemoveLocation = {
   type: typeof REMOVE_LOCATION
   id: string
 }
 
-type UpdateLocation = {
+export type UpdateLocation = {
   type: typeof UPDATE_LOCATION
   payload: {
     id: string

@@ -1,7 +1,11 @@
 import { Theme, colors } from 'react-native-elements'
 import { Platform } from 'react-native'
 
-const theme: Theme = {
+type ContainerTheme = {
+  Container: {}
+}
+
+const theme: Theme<ContainerTheme> = {
   colors: {
     ...Platform.select({
       default: colors.platform.android,
@@ -43,6 +47,11 @@ const theme: Theme = {
       marginBottom: 5,
     },
   },
+  Container: {
+    padding: 15,
+  },
 }
+
+export type ModifiedTheme = typeof theme
 
 export default theme

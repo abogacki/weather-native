@@ -1,14 +1,16 @@
 import React from 'react'
 import { DayForecast } from '../redux/weathers/types'
 import { View } from 'react-native'
-import { Text } from 'react-native-elements'
+import { Text, withTheme } from 'react-native-elements'
 import WeatherDailyListItem from './WeatherDailyListItem'
+import { ModifiedTheme } from '../Theme'
 
 type WeatherDailyProps = {
   daily: DayForecast[]
+  theme: ModifiedTheme
 }
 
-const WeatherDaily = ({ daily }: WeatherDailyProps) => {
+const WeatherDaily = withTheme(({ theme, daily }: WeatherDailyProps) => {
   return (
     <View style={{ marginBottom: 10, marginTop: 10 }}>
       <Text
@@ -22,7 +24,7 @@ const WeatherDaily = ({ daily }: WeatherDailyProps) => {
       >
         Forecast
       </Text>
-      <View style={{ padding: 15 }}>
+      <View style={theme.Container}>
         <View>
           {daily &&
             daily.length > 0 &&
@@ -33,6 +35,6 @@ const WeatherDaily = ({ daily }: WeatherDailyProps) => {
       </View>
     </View>
   )
-}
+})
 
 export default WeatherDaily

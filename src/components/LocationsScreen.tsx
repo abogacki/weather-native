@@ -2,20 +2,27 @@ import React, { Fragment } from 'react'
 import { AppState } from '../redux/store'
 import { connect } from 'react-redux'
 import { Location } from '../redux/locations/types'
-import { ListItem } from 'react-native-elements'
+import { ListItem, withTheme } from 'react-native-elements'
 import LocationsForm from './LocationsForm'
 import { ScrollView } from 'react-native-gesture-handler'
+import { compose } from 'redux'
+import { ModifiedTheme } from '../Theme'
 
 type LocationsScreenProps = {
   locations: Location[]
   navigation: any
+  theme: ModifiedTheme
 }
 
-const LocationsScreen = ({ locations, navigation }: LocationsScreenProps) => {
+const LocationsScreen = ({
+  theme,
+  locations,
+  navigation,
+}: LocationsScreenProps) => {
   return (
     <Fragment>
       <LocationsForm />
-      <ScrollView>
+      <ScrollView style={theme.Container}>
         {locations.map(location => (
           <ListItem
             key={location.id}
@@ -46,4 +53,7 @@ const mapStateToProps = (state: AppState) => ({
   locations: state.locations.allLocationIds.map(id => state.locations.byId[id]),
 })
 
-export default connect(mapStateToProps)(LocationsScreen)
+export default compose(
+  withTheme,
+  connect(mapStateToProps)
+)(LocationsScreen)

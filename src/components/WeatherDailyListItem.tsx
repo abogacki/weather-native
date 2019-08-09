@@ -30,23 +30,21 @@ const WeatherDailyListItem = ({ day }: ListItemProps) => {
       titleStyle={styles.forecastTitle}
       subtitle={
         <View>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-            }}
-          >
-            <View style={styles.row}>
-              <FontAwesome5Icon name="arrow-up" />
+          <View style={[styles.multilineRow, { marginTop: 10 }]}>
+            <View style={{ margin: 1, justifyContent: 'flex-start' }}>
+              <View style={styles.row}>
+                <Text style={styles.forecastSubtitle}>temp </Text>
+                <FontAwesome5Icon name="arrow-up" />
+              </View>
               <Text style={styles.forecastSubtitle}>
                 {day.temperatureHigh.toString()}
               </Text>
             </View>
-            <View style={styles.row}>
-              <FontAwesome5Icon name="arrow-down" />
+            <View style={{ margin: 1, justifyContent: 'flex-start' }}>
+              <View style={styles.row}>
+                <Text style={styles.forecastSubtitle}>temp </Text>
+                <FontAwesome5Icon name="arrow-down" />
+              </View>
               <Text style={styles.forecastSubtitle}>
                 {day.temperatureLow.toString()}
               </Text>
@@ -71,10 +69,19 @@ const styles = StyleSheet.create({
   forecastSubtitle: {
     fontWeight: '100',
     fontSize: 12,
+    textTransform: 'uppercase',
+    letterSpacing: 0.7,
   },
   leftAvatarIcon: { fontSize: 35, alignSelf: 'center' },
   contentIcon: { fontSize: 20, fontWeight: '100' },
   row: { flex: 1, flexDirection: 'row' },
+  multilineRow: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    flexWrap: 'wrap',
+  },
 })
 
 export default WeatherDailyListItem

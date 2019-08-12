@@ -1,3 +1,4 @@
+import { WeatherService } from '../../services/WeatherService'
 import { Point } from './../locations/types'
 import {
   FETCH_WEATHER_REQUEST,
@@ -21,18 +22,20 @@ export const fetchWeatherEpic: Epic<
     ofType<WeatherActionTypes, FetchWeatherRequest>(FETCH_WEATHER_REQUEST),
     switchMap(action =>
       from(
-        mockWeatherRequest({
-          latitude: action.payload.latitude,
-          longitude: action.payload.longitude,
-        })
+        WeatherService.makeWeatherRequest(action.payload)
+        // mockWeatherRequest({
+        //   latitude: action.payload.latitude,
+        //   longitude: action.payload.longitude,
+        // })
       ).pipe(
-        map((response: ServerResponse) =>
-          updateWeather({
+        map((response: ServerResponse) => {
+          console.log(response)
+          return updateWeather({
             id: action.payload.id,
-            currently: response.currently,
-            daily: response.daily.data,
+            currently: response.data.currently,
+            daily: response.data.daily.data,
           })
-        )
+        })
       )
     )
   )
@@ -44,7 +47,7 @@ type ThenArg<T> = T extends Promise<infer U>
   ? U
   : T
 
-type ServerResponse = ThenArg<typeof mockWeatherData>
+type ServerResponse = ThenArg<typeof WeatherService.getWeather>
 
 export const mockWeatherRequest = async ({ latitude, longitude }: Point) => {
   await sleep(1000)

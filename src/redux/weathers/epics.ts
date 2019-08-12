@@ -10,7 +10,7 @@ import { map, switchMap } from 'rxjs/operators'
 import mockWeatherData from '../../mocks/mockApiResponse.json'
 import { from } from 'rxjs'
 import { AppState } from '../store'
-import { sleep } from '../../services/LocationService'
+import sleep from '../../utils/sleep'
 
 export const fetchWeatherEpic: Epic<
   WeatherActionTypes,

@@ -1,11 +1,12 @@
 import { Theme, colors } from 'react-native-elements'
 import { Platform } from 'react-native'
 
-type ContainerTheme = {
+type CustomThemeElements = {
   Container: {}
+  ListItemTouchableScale: {}
 }
 
-const theme: Theme<ContainerTheme> = {
+const theme: Theme<CustomThemeElements> = {
   colors: {
     ...Platform.select({
       default: colors.platform.android,
@@ -46,7 +47,10 @@ const theme: Theme<ContainerTheme> = {
     },
   },
   Container: {
-    padding: 15,
+    paddingHorizontal: 15,
+  },
+  ListItemTouchableScale: {
+    marginBottom: 10,
   },
 }
 

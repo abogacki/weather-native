@@ -54,5 +54,5 @@ export const fetchWeatherError = ({
   id: number
   error: Error
 }): WeatherActionTypes => {
-  return { type: FETCH_WEATHER_ERROR, id, error }
+  return { type: FETCH_WEATHER_ERROR, payload: { id, error } }
 }

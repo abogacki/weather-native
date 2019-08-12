@@ -12,7 +12,7 @@ type WeatherDailyProps = {
 
 const WeatherDaily = withTheme(({ theme, daily }: WeatherDailyProps) => {
   return (
-    <View style={{ marginBottom: 10, marginTop: 10 }}>
+    <View style={{ marginVertical: 20 }}>
       <Text
         style={{
           flex: 1,
@@ -24,7 +24,7 @@ const WeatherDaily = withTheme(({ theme, daily }: WeatherDailyProps) => {
       >
         Forecast
       </Text>
-      <View style={theme.Container}>
+      <View style={{ ...theme.Container, marginVertical: 20 }}>
         <View>
           {daily &&
             daily.length > 0 &&

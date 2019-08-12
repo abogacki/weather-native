@@ -1,33 +1,32 @@
-import {
-  Point,
-  LocationActionTypes,
-  CreateLocation,
-  CREATE_LOCATION,
-} from './types'
+import { WeatherActionTypes } from './../weathers/types'
+import { LocationActionTypes, AddLocation, ADD_LOCATION } from './types'
 import { ofType, Epic } from 'redux-observable'
 import { map, switchMap } from 'rxjs/operators'
 import mockWeatherData from '../../mocks/mockApiResponse.json'
-import { from } from 'rxjs'
 import { AppState } from '../store'
-import { sleep } from '../../services/LocationService'
-import { updateWeather } from '../weathers'
-import { createWeather } from '../weathers/weathersFactory'
+import { updateWeather, addWeather } from '../weathers'
 
 // create location, than create weather, than assign weather to this location?
 // or create create weather, than assign weather to new location?
 
 // UNCOMMENT THIS
-// export const addLocationWithWeather: Epic<
-//   LocationActionTypes,
-//   LocationActionTypes,
-//   AppState
-// > = action$ =>
-//   action$.pipe(
-//     ofType<LocationActionTypes, CreateLocation>(CREATE_LOCATION),
-//     map(action => addLocation(action.payload)),
-//     ofType<LocationActionTypes,
-//     )
-//   )
+export const addLocationWithWeather: Epic<
+  LocationActionTypes | WeatherActionTypes,
+  LocationActionTypes | WeatherActionTypes,
+  AppState
+> = (action$, state$) =>
+  action$.pipe(
+    ofType<LocationActionTypes | WeatherActionTypes, AddLocation>(ADD_LOCATION),
+    map(action => {
+      const locationId = parseInt(
+        state$.value.locations.allLocationIds.slice(-1)[0],
+        10
+      )
+      console.log(locationId)
+
+      return addWeather(locationId)
+    })
+  )
 
 // // FIGURE OUT WHAT IS GOING ON HERE
 // type ThenArg<T> = T extends Promise<infer U>

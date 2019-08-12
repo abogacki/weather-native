@@ -39,6 +39,7 @@ class LocationsForm extends Component<Props, State> {
   }
   public input$!: Subject<string>
   public fetch$!: Subject<any>
+  public submit$!: Subject<LocationProps>
 
   constructor(props: Props) {
     super(props)

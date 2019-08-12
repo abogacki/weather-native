@@ -15,13 +15,22 @@ export interface Location extends LocationProps {
 }
 
 export type LocationsState = {
-  byId: { [id: string]: Location }
-  allLocationIds: string[]
+  byId: { [id: number]: Location }
+  allLocationIds: number[]
 }
 
+export const ADD_LOCATION = 'ADD_LOCATION'
 export const CREATE_LOCATION = 'CREATE_LOCATION'
 export const REMOVE_LOCATION = 'REMOVE_LOCATION'
 export const UPDATE_LOCATION = 'UPDATE_LOCATION'
+
+export type AddLocation = {
+  type: typeof ADD_LOCATION
+  payload: {
+    name: string
+    point: Point
+  }
+}
 
 export type CreateLocation = {
   type: typeof CREATE_LOCATION
@@ -33,19 +42,20 @@ export type CreateLocation = {
 
 export type RemoveLocation = {
   type: typeof REMOVE_LOCATION
-  id: string
+  id: number
 }
 
 export type UpdateLocation = {
   type: typeof UPDATE_LOCATION
   payload: {
-    id: string
+    id: number
     name: string
     point: Point
   }
 }
 
 export type LocationActionTypes =
+  | AddLocation
   | CreateLocation
   | RemoveLocation
   | UpdateLocation

@@ -1,23 +1,22 @@
-import { WeatherActionTypes } from './../weathers/types'
-import { LocationActionTypes, AddLocation, ADD_LOCATION } from './types'
+import { ActionTypes } from './../actionTypes'
+import { AddLocation, ADD_LOCATION } from './types'
 import { ofType, Epic } from 'redux-observable'
 import { map } from 'rxjs/operators'
 import { AppState } from '../store'
 import { addWeather } from '../weathers'
 
-// create location, than create weather, than assign weather to this location?
-// or create create weather, than assign weather to new location?
-
-// UNCOMMENT THIS
 export const addLocationWithWeather: Epic<
-  LocationActionTypes | WeatherActionTypes,
-  LocationActionTypes | WeatherActionTypes,
+  ActionTypes,
+  ActionTypes,
   AppState
 > = (action$, state$) =>
   action$.pipe(
-    ofType<LocationActionTypes | WeatherActionTypes, AddLocation>(ADD_LOCATION),
+    ofType<ActionTypes, AddLocation>(ADD_LOCATION),
     map(action => {
+      // get latest created location id
       const locationId = state$.value.locations.allLocationIds.slice(-1)[0]
+
+      // add weather to store with locationId
       return addWeather(locationId)
     })
   )

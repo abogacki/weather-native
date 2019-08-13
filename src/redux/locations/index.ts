@@ -37,7 +37,7 @@ export default function locationsReducer(
     case REMOVE_LOCATION:
       const newById = Object.keys(state.byId).reduce(
         (all: any, locId: string) => {
-          if (locId.toString() !== action.id.toString()) {
+          if (locId.toString() !== action.payload.id.toString()) {
             all[locId.toString()] = state.byId[parseInt(locId, 10)]
           }
           return all
@@ -47,7 +47,7 @@ export default function locationsReducer(
       return {
         byId: newById,
         allLocationIds: state.allLocationIds.filter(
-          locId => locId === action.id
+          locId => locId === action.payload.id
         ),
       }
     default: {

@@ -1,8 +1,8 @@
 import {
   LocationProps,
   LocationActionTypes,
-  ADD_LOCATION,
   Location,
+  ADD_LOCATION,
   UPDATE_LOCATION,
   REMOVE_LOCATION,
 } from './types'
@@ -16,5 +16,5 @@ export const updateLocation = (data: Location): LocationActionTypes => {
 }
 
 export const removeLocation = (id: number): LocationActionTypes => {
-  return { type: REMOVE_LOCATION, id }
+  return { type: REMOVE_LOCATION, payload: { id } }
 }

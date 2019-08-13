@@ -43,7 +43,8 @@ export default function weathersReducer(
         ...state,
         ...Object.keys(state.byId).reduce(
           (all: WeathersState, key: string) => {
-            if (parseInt(key, 10) === action.id) {
+            const intKey = parseInt(key, 10)
+            if (intKey === action.id) {
               all.byId[key] = state.byId[key]
               all.allWeathersIds = [...all.allWeathersIds, action.id.toString()]
             }

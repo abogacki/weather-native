@@ -7,3 +7,9 @@ export const getKeys = () => {
     darkSky: darkSkyApiKey,
   }
 }
+
+export const getUserSettings = () => {
+  return {
+    units: 'si',
+  }
+}

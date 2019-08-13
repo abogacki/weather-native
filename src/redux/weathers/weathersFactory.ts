@@ -21,7 +21,11 @@ export const createWeather = (locationId: number): Weather => {
       nearestStormDistance: 0,
       humidity: 0,
       visibility: 0,
-      icon: '',
+      icon: 'rain',
+      precipIntensity: 0,
+      precipProbability: 0,
+      dewPoint: 0,
+      nearestStormBearing: 0,
     },
     daily: [],
   }

@@ -8,8 +8,16 @@ import ListItemTouchableScale from './shared/ListItemTouchableScale'
 
 type LocationsFormListProps = {
   theme: ModifiedTheme
-  locations: object[]
+  locations: LocationsResponseEntity[]
   onSubmit: (data: LocationProps) => void
+}
+
+type LocationsResponseEntity = {
+  formatted: string
+  geometry: {
+    lat: number
+    lng: number
+  }
 }
 
 const LocationsFormList = ({

@@ -3,7 +3,7 @@ import { IconName } from '../../services/IconService'
 export type Weather = {
   id: number
   locationId: number
-  currently: CurrentForecast
+  currently: CurrentForecast | undefined
   daily: DayForecast[]
 }
 

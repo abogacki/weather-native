@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Location } from '../redux/locations/types'
 import { withTheme } from 'react-native-elements'
 import LocationsForm from './LocationsForm'
+import LocationsNavigationList from './LocationsNavigationList'
 import { ScrollView } from 'react-native-gesture-handler'
 import { compose } from 'redux'
 import { ModifiedTheme } from '../Theme'
@@ -24,7 +25,12 @@ const LocationsScreen = ({
   return (
     <View>
       <LocationsForm />
-      <ScrollView style={theme.Container}>
+      <LocationsNavigationList
+        locations={locations}
+        navigation={navigation}
+        theme={theme}
+      />
+      {/* <ScrollView style={theme.Container}>
         {locations.map(location => (
           <ListItemTouchableScale
             containerStyle={{ marginBottom: 10 }}
@@ -43,7 +49,7 @@ const LocationsScreen = ({
             }
           />
         ))}
-      </ScrollView>
+      </ScrollView> */}
     </View>
   )
 }

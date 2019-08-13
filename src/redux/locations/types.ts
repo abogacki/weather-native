@@ -3,11 +3,6 @@ export type Point = {
   longitude: number
 }
 
-// export type LocationProps = {
-//   name: string
-//   point: Point
-// }
-
 export interface Location {
   id: number
   name: string
@@ -43,7 +38,7 @@ export type RemoveLocation = {
 
 export type UpdateLocation = {
   type: typeof UPDATE_LOCATION
-  payload: Partial<Location>
+  payload: Location
 }
 
 export type LocationActionTypes =

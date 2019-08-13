@@ -1,10 +1,8 @@
 import React from 'react'
-import { withTheme } from 'react-native-elements'
 import { ScrollView } from 'react-native'
 import { ModifiedTheme } from '../Theme'
 import ListItemTouchableScale from './shared/ListItemTouchableScale'
-import { compose } from 'redux'
-import { withNavigation, NavigationParams } from 'react-navigation'
+import { NavigationParams } from 'react-navigation'
 import { Location } from '../redux/locations/types'
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5'
 

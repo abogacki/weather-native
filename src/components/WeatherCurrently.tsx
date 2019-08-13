@@ -1,6 +1,6 @@
 import React from 'react'
 import { CurrentForecast } from '../redux/weathers/types'
-import { Card, Text } from 'react-native-elements'
+import { Card } from 'react-native-elements'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { StyleSheet, View } from 'react-native'
 import { translateIcon } from '../services/IconService'

@@ -5,10 +5,8 @@ import { Location } from '../redux/locations/types'
 import { withTheme } from 'react-native-elements'
 import LocationsForm from './LocationsForm'
 import LocationsNavigationList from './LocationsNavigationList'
-import { ScrollView } from 'react-native-gesture-handler'
 import { compose } from 'redux'
 import { ModifiedTheme } from '../Theme'
-import ListItemTouchableScale from './shared/ListItemTouchableScale'
 import { View } from 'react-native'
 
 type LocationsScreenProps = {
@@ -30,26 +28,6 @@ const LocationsScreen = ({
         navigation={navigation}
         theme={theme}
       />
-      {/* <ScrollView style={theme.Container}>
-        {locations.map(location => (
-          <ListItemTouchableScale
-            containerStyle={{ marginBottom: 10 }}
-            key={location.id}
-            title={location.name}
-            subtitle={`${location.point.latitude},${location.point.longitude}`}
-            chevron
-            leftIcon={{
-              name: 'map',
-            }}
-            onPress={() =>
-              navigation.navigate('Weather', {
-                id: location.id,
-                name: location.name,
-              })
-            }
-          />
-        ))}
-      </ScrollView> */}
     </View>
   )
 }

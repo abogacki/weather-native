@@ -1,11 +1,19 @@
 import { Point } from '../redux/locations/types'
 import axios from 'axios'
+import { getKeys } from './UserService'
 
 export class WeatherService {
-  public static makeWeatherRequest({ latitude, longitude }: Point) {
-    const key = '004e080b7d25e328f7d2f97c96c7d7ea'
-    const url = `${this.baseUrl}/${key}/${latitude},${longitude}?units=si`
-    return axios.get(url)
+  public static makeWeatherRequest(point: Point) {
+    const key = getKeys().darkSky
+    const params = {
+      units: 'si',
+    }
+    const url = getApiUrl(key, point)
+    return axios.get(url, { params })
   }
-  private static baseUrl = `https://api.darksky.net/forecast`
+}
+
+const getApiUrl = (key: string, { latitude, longitude }: Point) => {
+  const baseURL = `https://api.darksky.net/forecast`
+  return `${baseURL}/${key}/${latitude},${longitude}`
 }

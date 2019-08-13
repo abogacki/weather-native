@@ -1,6 +1,7 @@
 import { Subject } from 'rxjs'
 import { debounceTime, switchMap } from 'rxjs/operators'
 import axios from 'axios'
+import { getKeys } from '../services/UserService'
 
 export default class LocationService {
   public static createFetchStream(inputStream: Subject<string>) {
@@ -17,13 +18,24 @@ interface ServerResponse {
 
 // location Api service?
 export async function openGateApiRequest(locationName: string) {
-  const url = `https://api.opencagedata.com/geocode/v1/json?q=${locationName}&key=3117f484e30440678b3e5da0e6c238e9`
+  const key = getKeys().openCageData
+
+  const params = {
+    q: locationName,
+    key,
+  }
+
+  const url = getApiUrl()
+
   try {
-    const response = await axios.get<ServerResponse>(url)
-    // await sleep()
-    // const response = MockLocationApiResponse
+    const response = await axios.get<ServerResponse>(url, { params })
     return response.data.results
   } catch (error) {
     throw error
   }
+}
+
+const getApiUrl = () => {
+  const baseURL = `https://api.opencagedata.com/geocode/v1/json`
+  return baseURL
 }

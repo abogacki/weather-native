@@ -1,14 +1,16 @@
+import { IconName } from '../../services/IconService'
+
 export type Weather = {
   id: number
   locationId: number
-  currently: CurrentForcast
+  currently: CurrentForecast
   daily: DayForecast[]
 }
 
 export type Forecast = {
   time: number
   summary: string
-  icon: string
+  icon: IconName
   humidity: number
   pressure: number
   windSpeed: number
@@ -18,12 +20,16 @@ export type Forecast = {
   uvIndex: number
   visibility: number
   ozone: number
+  precipIntensity: number // ms
+  precipProbability: number // * 100%
+  dewPoint: number
 }
 
-export interface CurrentForcast extends Forecast {
+export interface CurrentForecast extends Forecast {
   apparentTemperature: number // number specific - celcius or fahrenheit
   temperature: number // number specific - celcius or fahrenheit
-  nearestStormDistance: number // specified nuber
+  nearestStormDistance: number // meters
+  nearestStormBearing: number // meters
 }
 
 export interface DayForecast extends Forecast {
@@ -35,6 +41,21 @@ export interface DayForecast extends Forecast {
   temperatureMax: number
   apparentTemperatureMin: number
   apparentTemperatureMax: number
+  sunriseTime: number
+  sunsetTime: number
+  moonPhase: number
+  precipIntensityMax: number
+  precipIntensityMaxTime: number
+  temperatureHighTime: number
+  temperatureLowTime: number
+  apparentTemperatureHighTime: number
+  apparentTemperatureLowTime: number
+  windGustTime: number
+  uvIndexTime: number
+  temperatureMinTime: number
+  temperatureMaxTime: number
+  apparentTemperatureMinTime: number
+  apparentTemperatureMaxTime: number
 }
 
 export type WeathersState = {
@@ -61,11 +82,7 @@ export type RemoveWeather = {
 
 export type UpdateWeather = {
   type: typeof UPDATE_WEATHER
-  payload: {
-    id: number
-    currently: CurrentForcast
-    daily: DayForecast[]
-  }
+  payload: Omit<Weather, 'locationId'>
 }
 
 export type FetchWeatherRequest = {

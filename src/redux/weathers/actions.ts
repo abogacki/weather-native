@@ -1,7 +1,6 @@
 import {
   WeatherActionTypes,
-  CurrentForcast,
-  DayForecast,
+  Weather,
   ADD_WEATHER,
   UPDATE_WEATHER,
   REMOVE_WEATHER,
@@ -18,11 +17,7 @@ export const updateWeather = ({
   id,
   currently,
   daily,
-}: {
-  id: number
-  currently: CurrentForcast
-  daily: DayForecast[]
-}): WeatherActionTypes => {
+}: Omit<Weather, 'locationId'>): WeatherActionTypes => {
   return {
     type: UPDATE_WEATHER,
     payload: {
@@ -37,22 +32,26 @@ export const removeWeather = (id: number): WeatherActionTypes => {
   return { type: REMOVE_WEATHER, id }
 }
 
+type FetchActionParams = {
+  point: Point
+  id: number
+}
+
 export const fetchWeatherRequest = ({
   id,
   point: { latitude, longitude },
-}: {
-  id: number
-  point: Point
-}): WeatherActionTypes => {
+}: FetchActionParams): WeatherActionTypes => {
   return { type: FETCH_WEATHER_REQUEST, payload: { id, latitude, longitude } }
+}
+
+type FetchErrorActionParams = {
+  id: number
+  error: Error
 }
 
 export const fetchWeatherError = ({
   id,
   error,
-}: {
-  id: number
-  error: Error
-}): WeatherActionTypes => {
+}: FetchErrorActionParams): WeatherActionTypes => {
   return { type: FETCH_WEATHER_ERROR, payload: { id, error } }
 }

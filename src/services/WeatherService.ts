@@ -1,6 +1,7 @@
 import { Point } from '../redux/locations/types'
 import axios from 'axios'
 import { getKeys } from './UserService'
+import { ApiResponse } from '../redux/weathers/ApiResponse'
 
 export class WeatherService {
   public static makeWeatherRequest(point: Point) {
@@ -9,7 +10,7 @@ export class WeatherService {
       units: 'si',
     }
     const url = getApiUrl(key, point)
-    return axios.get(url, { params })
+    return axios.get<ApiResponse>(url, { params })
   }
 }
 

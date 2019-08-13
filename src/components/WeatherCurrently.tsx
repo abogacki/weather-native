@@ -1,5 +1,5 @@
 import React from 'react'
-import { CurrentForcast } from '../redux/weathers/types'
+import { CurrentForecast } from '../redux/weathers/types'
 import { Card, Text } from 'react-native-elements'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { StyleSheet, View } from 'react-native'
@@ -8,7 +8,7 @@ import CardElement from './shared/CardElement'
 
 type WeatherCurrentlyProps = {
   locationName: string
-  currently: CurrentForcast
+  currently: CurrentForecast
 }
 
 const styles = StyleSheet.create({
